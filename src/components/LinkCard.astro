@@ -1,0 +1,27 @@
+---
+interface Props {
+	id: string;
+	title: string;
+	description: string;
+	href: string;
+	isComingSoon?: boolean;
+	comingSoonLabel?: string;
+}
+
+const { id, title, description, href, isComingSoon = false, comingSoonLabel = '' } = Astro.props;
+---
+
+<a
+	id={`link-card-${id}`}
+	class:list={['link-card', { 'is-disabled': isComingSoon }]}
+	href={isComingSoon ? '#' : href}
+	target={isComingSoon ? undefined : '_blank'}
+	rel={isComingSoon ? undefined : 'noreferrer'}
+	aria-disabled={isComingSoon}
+>
+	<div class="link-card-main">
+		<p class="link-card-title" id={`link-title-${id}`} data-i18n>{title}</p>
+		<p class="link-card-description" id={`link-description-${id}`} data-i18n>{description}</p>
+	</div>
+	<span class="link-card-tag" id={`link-tag-${id}`} data-i18n>{isComingSoon ? comingSoonLabel : ''}</span>
+</a>
