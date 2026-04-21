@@ -44,16 +44,16 @@ const t = content[defaultLocale];
 		</section>
 
 		<footer class="footer locale-block" data-locale-block="footer">
-			<p id="footer-copy" data-i18n>{t.footer}</p>
+			<p id="footer-copy" data-i18n>{t.footer.label}</p>
 
-			<a href="mailto:me@danieltinois.dev" class="footer-email">
+			<a href={t.footer.href} class="footer-email">
 				<span class="footer-email-icon">
 					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
 						<path d="M4 4h16v16H4z" />
 						<path d="M22 6l-10 7L2 6" />
 					</svg>
 				</span>
-				<span class="footer-email-text">me@danieltinois.dev</span>
+				<span class="footer-email-text" data-i18n>{t.footer.email}</span>
 			</a>
 		</footer>
 	</main>
@@ -101,10 +101,20 @@ const t = content[defaultLocale];
 			setText('#section-links', t.sections.links);
 			setText('#section-about', t.sections.about);
 			setText('#about-copy', t.about);
-			setText('#footer-copy', t.footer);
+			setText('#footer-copy', t.footer.label);
+			setText('.footer-email-text', t.footer.email);
+
+			const footerEmailLink = document.querySelector('.footer-email');
+			if (footerEmailLink) {
+
+				footerEmailLink.setAttribute('href', t.footer.href);
+
+			}
+
 			const getLocaleLabel = (locale) => {
 				return locale === 'pt-BR' ? '🇧🇷 PT-BR' : '🇺🇸 EN';
 			}
+
 			setText('#language-toggle', getLocaleLabel(locale));
 
 			for (const link of t.links) {
