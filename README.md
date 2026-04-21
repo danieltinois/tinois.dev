@@ -1,51 +1,19 @@
-# Daniel Link Hub (Astro)
+# Personal Link Hub
 
-Minimal, modern personal link hub / portfolio built with Astro.
+A minimal and modern personal link hub built with Astro.
+
+This project centralizes my main links, projects, and content in a clean, fast, and responsive interface. It features a lightweight architecture with no heavy frameworks, focusing on performance and simplicity.
 
 ## Features
 
-- EN / PT-BR language toggle (no i18n libraries)
-- Dark / Light theme toggle with `localStorage` persistence
-- Dark theme as default
-- Responsive, mobile-first centered layout
-- Link-focused cards, short about section, projects list, and minimal footer
+- 🌐 Language switch (EN / PT-BR)
+- 🎨 Dark / Light theme with persistence
+- ⚡ Static and fast (Astro)
+- 📱 Fully responsive design
+- 🧠 Simple i18n system without external libraries
 
-## Project Structure
+## Tech
 
-```text
-/
-├── public/
-│   ├── favicon.ico
-│   └── favicon.svg
-├── src/
-│   ├── components/
-│   │   ├── LinkCard.astro
-│   │   └── ProjectCard.astro
-│   ├── data/
-│   │   └── i18n.ts
-│   ├── layouts/
-│   │   └── Layout.astro
-│   ├── pages/
-│   │   └── index.astro
-│   └── styles/
-│       └── global.css
-├── astro.config.mjs
-├── package.json
-└── tsconfig.json
-```
-
-## Run Locally
-
-```bash
-npm install
-npm run dev
-```
-
-Open `http://localhost:4321`.
-
-## Build For Production
-
-```bash
-npm run build
-npm run preview
-```
+- Astro
+- HTML + CSS
+- Vanilla JavaScript
