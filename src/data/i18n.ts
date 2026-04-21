@@ -40,7 +40,11 @@ interface LocaleContent {
 	};
 	about: string;
 	links: LinkItem[];
-	footer: string;
+	footer: {
+		label: string;
+		email: string;
+		href: string;
+	};
 	labels: {
 		comingSoon: string;
 	};
@@ -113,7 +117,11 @@ export const content: Record<Locale, LocaleContent> = {
 				icon: 'futureShop'
 			},
 		],
-		footer: 'built by Daniel Tinois',
+		footer: {
+			label: 'built by Daniel Tinois',
+			email: 'me@danieltinois.dev',
+			href: 'mailto:me@danieltinois.dev'
+		},
 		labels: {
 			comingSoon: 'Coming soon',
 		},
@@ -184,7 +192,11 @@ export const content: Record<Locale, LocaleContent> = {
 				icon: 'futureShop'
 			},
 		],
-		footer: 'feito por Daniel Tinois',
+		footer: {
+			label: 'feito por Daniel Tinois',
+			email: 'me@danieltinois.dev',
+			href: 'mailto:me@danieltinois.dev'
+		},
 		labels: {
 			comingSoon: 'Em breve',
 		},
