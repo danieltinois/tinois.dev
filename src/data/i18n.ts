@@ -1,12 +1,21 @@
 export type Locale = 'en' | 'pt-BR';
 
-export const defaultLocale: Locale = 'en';
+export const defaultLocale: Locale = 'pt-BR';
+
+type IconName =
+	| 'github'
+	| 'portfolio'
+	| 'blog'
+	| 'linkedin'
+	| 'instagram'
+	| 'futureShop';
 
 interface LinkItem {
 	key: string;
 	title: string;
 	description: string;
 	href: string;
+	icon: IconName;
 	comingSoon?: boolean;
 }
 
@@ -64,6 +73,7 @@ export const content: Record<Locale, LocaleContent> = {
 				title: 'My GitHub',
 				description: 'Code, experiments, and open source work.',
 				href: 'https://github.com/danieltinois',
+				icon: 'github'
 			},
 			{
 				key: 'portfolio',
@@ -71,25 +81,36 @@ export const content: Record<Locale, LocaleContent> = {
 				description: 'My portfolio with additional information.',
 				href: '#',
 				comingSoon: true,
+				icon: 'portfolio'
 			},
 			{
 				key: 'blog',
 				title: 'My Blog',
 				description: 'Notes on engineering, product, and systems.',
 				href: 'https://my-blog-zeta-lac.vercel.app',
+				icon: 'blog'
 			},
 			{
 				key: 'linkedin',
 				title: 'My Linkedin',
 				description: 'Connect with me on Linkedin.',
 				href: 'https://www.linkedin.com/in/danieltinois/',
+				icon: 'linkedin'
 			},
 			{
-				key: 'future-shop',
+				key: 'instagram',
+				title: 'My Instagram',
+				description: 'Follow me on Instagram.',
+				href: 'https://www.instagram.com/daniel.tinois/',
+				icon: 'instagram'
+			},
+			{
+				key: 'futureShop',
 				title: 'Future Shop',
 				description: 'Products, templates and eBooks.',
 				href: '#',
 				comingSoon: true,
+				icon: 'futureShop'
 			},
 		],
 		footer: 'built by Daniel Tinois',
@@ -123,6 +144,7 @@ export const content: Record<Locale, LocaleContent> = {
 				title: 'Meu GitHub',
 				description: 'Código, experimentos e trabalho open source.',
 				href: 'https://github.com/danieltinois',
+				icon: 'github'
 			},
 			{
 				key: 'portfolio',
@@ -130,25 +152,36 @@ export const content: Record<Locale, LocaleContent> = {
 				description: 'Meu portfólio com informações extras.',
 				href: '#',
 				comingSoon: true,
+				icon: 'portfolio'
 			},
 			{
 				key: 'blog',
 				title: 'Meu Blog',
 				description: 'Notas sobre engenharia, produto e sistemas.',
 				href: 'https://my-blog-zeta-lac.vercel.app',
+				icon: 'blog'
 			},
 			{
 				key: 'linkedin',
 				title: 'Meu Linkedin',
 				description: 'Se conecte comigo no Linkedin.',
 				href: 'https://www.linkedin.com/in/danieltinois/',
+				icon: 'linkedin'
 			},
 			{
-				key: 'future-shop',
+				key: 'instagram',
+				title: 'Meu Instagram',
+				description: 'Me siga no Instagram.',
+				href: 'https://www.instagram.com/daniel.tinois/',
+				icon: 'instagram'
+			},
+			{
+				key: 'futureShop',
 				title: 'Loja Futura',
 				description: 'Produtos, templates e eBooks.',
 				href: '#',
 				comingSoon: true,
+				icon: 'futureShop'
 			},
 		],
 		footer: 'feito por Daniel Tinois',

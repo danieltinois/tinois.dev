@@ -29,6 +29,7 @@ const t = content[defaultLocale];
 							title={link.title}
 							description={link.description}
 							href={link.href}
+							icon={link.icon}
 							isComingSoon={link.comingSoon}
 							comingSoonLabel={t.labels.comingSoon}
 						/>
@@ -91,7 +92,10 @@ const t = content[defaultLocale];
 			setText('#section-about', t.sections.about);
 			setText('#about-copy', t.about);
 			setText('#footer-copy', t.footer);
-			setText('#language-toggle', t.controls.switchLanguage);
+			const getLocaleLabel = (locale) => {
+				return locale === 'pt-BR' ? '🇧🇷 PT-BR' : '🇺🇸 EN';
+			}
+			setText('#language-toggle', getLocaleLabel(locale));
 
 			for (const link of t.links) {
 				setText(`#link-title-${link.key}`, link.title);
