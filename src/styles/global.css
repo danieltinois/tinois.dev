@@ -234,6 +234,8 @@ a {
 }
 
 .footer {
+	display: flex;
+	justify-content: space-between;
 	margin-top: 2.2rem;
 	padding-top: 1rem;
 	border-top: 1px solid var(--border);
@@ -243,6 +245,28 @@ a {
 	margin: 0;
 	font-size: 0.82rem;
 	color: var(--text-secondary);
+}
+
+.footer-email {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	text-decoration: none;
+	color: var(--text-secondary);
+	font-size: 0.82rem;
+	transition: color 160ms ease, transform 160ms ease;
+}
+
+.footer-email:hover {
+	color: var(--text-primary);
+	transform: translateY(-1px);
+}
+
+.footer-email-icon svg {
+	display: block;
+	width: 16px;
+	height: 16px;
+	opacity: 0.8;
 }
 
 .locale-block {
