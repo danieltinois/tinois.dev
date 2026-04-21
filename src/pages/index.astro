@@ -1,11 +1,170 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
+import LinkCard from '../components/LinkCard.astro';
+import { content, defaultLocale } from '../data/i18n';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const t = content[defaultLocale];
 ---
 
-<Layout>
-	<Welcome />
+<Layout title={t.meta.title} description={t.meta.description}>
+	<main class="hub">
+		<header class="controls locale-block" data-locale-block="controls" aria-label="controls">
+			<button id="language-toggle" class="control-button" type="button" data-i18n>{t.controls.switchLanguage}</button>
+			<button id="theme-toggle" class="control-button" type="button" data-i18n>{t.controls.themeLight}</button>
+		</header>
+
+		<section class="hero locale-block" data-locale-block="hero">
+			<p class="hero-name" id="hero-name" data-i18n>{t.hero.name}</p>
+			<h1 class="hero-subtitle" id="hero-subtitle" data-i18n>{t.hero.subtitle}</h1>
+			<p class="hero-tagline" id="hero-tagline" data-i18n>{t.hero.tagline}</p>
+		</section>
+
+		<section class="section-block locale-block" data-locale-block="links">
+			<h2 class="section-title" id="section-links" data-i18n>{t.sections.links}</h2>
+			<div class="link-grid">
+				{
+					t.links.map((link) => (
+						<LinkCard
+							id={link.key}
+							title={link.title}
+							description={link.description}
+							href={link.href}
+							isComingSoon={link.comingSoon}
+							comingSoonLabel={t.labels.comingSoon}
+						/>
+					))
+				}
+			</div>
+		</section>
+
+		<section class="section-block locale-block" data-locale-block="about">
+			<h2 class="section-title" id="section-about" data-i18n>{t.sections.about}</h2>
+			<p class="about-copy" id="about-copy" data-i18n>{t.about}</p>
+		</section>
+
+		<footer class="footer locale-block" data-locale-block="footer">
+			<p id="footer-copy" data-i18n>{t.footer}</p>
+		</footer>
+	</main>
+
+	<script define:vars={{ content }}>
+		const languageToggle = document.querySelector('#language-toggle');
+		const themeToggle = document.querySelector('#theme-toggle');
+		const html = document.documentElement;
+		const supportedLocales = ['en', 'pt-BR'];
+		const reduceMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+		let isSwitchingLocale = false;
+
+		const savedLocale = localStorage.getItem('locale');
+		const browserLang = navigator.language;
+		let currentLocale = savedLocale && supportedLocales.includes(savedLocale)
+			? savedLocale
+			: browserLang.startsWith('pt')
+			? 'pt-BR'
+			: 'en';
+
+		const setText = (selector, value) => {
+			const element = document.querySelector(selector);
+			if (element) {
+				element.textContent = value;
+			}
+		};
+
+		const currentTheme = () => (html.getAttribute('data-theme') === 'light' ? 'light' : 'dark');
+
+		const updateThemeLabel = () => {
+			const t = content[currentLocale];
+			const nextTheme = currentTheme() === 'dark' ? t.controls.themeLight : t.controls.themeDark;
+			setText('#theme-toggle', nextTheme);
+		};
+
+		const applyLocale = (locale) => {
+			const t = content[locale];
+			document.title = t.meta.title;
+			html.lang = locale;
+
+			setText('#hero-name', t.hero.name);
+			setText('#hero-subtitle', t.hero.subtitle);
+			setText('#hero-tagline', t.hero.tagline);
+
+			setText('#section-links', t.sections.links);
+			setText('#section-about', t.sections.about);
+			setText('#about-copy', t.about);
+			setText('#footer-copy', t.footer);
+			setText('#language-toggle', t.controls.switchLanguage);
+
+			for (const link of t.links) {
+				setText(`#link-title-${link.key}`, link.title);
+				setText(`#link-description-${link.key}`, link.description);
+				setText(`#link-tag-${link.key}`, link.comingSoon ? t.labels.comingSoon : '');
+
+				const card = document.querySelector(`#link-card-${link.key}`);
+				if (card && !link.comingSoon) {
+					card.href = link.href;
+				}
+			}
+
+			updateThemeLabel();
+		};
+
+		const animateLanguageBlocks = (phase) => {
+			if (reduceMotionQuery.matches) {
+				return Promise.resolve();
+			}
+
+			const blocks = [...document.querySelectorAll('[data-locale-block]')];
+			const animations = blocks.map((block, index) => {
+				const isOut = phase === 'out';
+				return block.animate(
+					isOut
+						? [
+								{ opacity: 1, transform: 'translateY(0px) scale(1)', filter: 'blur(0px)' },
+								{ opacity: 0, transform: 'translateY(8px) scale(0.995)', filter: 'blur(2px)' },
+							]
+						: [
+								{ opacity: 0, transform: 'translateY(-10px) scale(0.995)', filter: 'blur(3px)' },
+								{ opacity: 1, transform: 'translateY(0px) scale(1)', filter: 'blur(0px)' },
+							],
+					{
+						duration: isOut ? 180 : 360,
+						delay: isOut ? index * 24 : index * 34,
+						easing: isOut ? 'cubic-bezier(0.4, 0, 0.8, 0.2)' : 'cubic-bezier(0.16, 1, 0.3, 1)',
+						fill: 'both',
+					},
+				).finished;
+			});
+
+			return Promise.all(animations).then(() => undefined);
+		};
+
+		const switchLocaleSmoothly = async (nextLocale) => {
+			if (isSwitchingLocale) {
+				return;
+			}
+
+			isSwitchingLocale = true;
+			document.body.classList.add('is-locale-switching');
+			await animateLanguageBlocks('out');
+			applyLocale(nextLocale);
+			await animateLanguageBlocks('in');
+			document.body.classList.remove('is-locale-switching');
+			isSwitchingLocale = false;
+		};
+
+		languageToggle?.addEventListener('click', async () => {
+			const nextLocale = currentLocale === 'en' ? 'pt-BR' : 'en';
+			await switchLocaleSmoothly(nextLocale);
+			currentLocale = nextLocale;
+			localStorage.setItem('locale', currentLocale);
+		});
+
+		themeToggle?.addEventListener('click', () => {
+			const nextTheme = currentTheme() === 'dark' ? 'light' : 'dark';
+			html.setAttribute('data-theme', nextTheme);
+			localStorage.setItem('theme', nextTheme);
+			updateThemeLabel();
+		});
+
+		applyLocale(currentLocale);
+	</script>
 </Layout>
