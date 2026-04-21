@@ -189,6 +189,18 @@ a {
 	background: var(--accent-soft);
 }
 
+.link-card-main {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+}
+
+.link-icon svg {
+	width: 24px;
+	height: 24px;
+	opacity: 0.8;
+}
+
 .about-copy {
 	margin: 0;
 	color: var(--text-secondary);

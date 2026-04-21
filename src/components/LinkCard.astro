@@ -1,14 +1,32 @@
 ---
+type IconName =
+	| 'github'
+	| 'portfolio'
+	| 'blog'
+	| 'linkedin'
+	| 'instagram'
+	| 'futureShop';
+
 interface Props {
 	id: string;
 	title: string;
 	description: string;
 	href: string;
+	icon: IconName;
 	isComingSoon?: boolean;
 	comingSoonLabel?: string;
 }
 
-const { id, title, description, href, isComingSoon = false, comingSoonLabel = '' } = Astro.props;
+const { id, title, description, href, icon, isComingSoon = false, comingSoonLabel = '' } = Astro.props;
+
+const icons: Record<IconName, string> = {
+	github: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.486 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.009-.866-.014-1.7-2.782.605-3.369-1.344-3.369-1.344-.455-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.004.07 1.532 1.032 1.532 1.032.892 1.53 2.341 1.088 2.91.832.091-.647.349-1.088.635-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.55 9.55 0 0 1 2.504.337c1.909-1.296 2.748-1.027 2.748-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.31.678.921.678 1.857 0 1.34-.012 2.421-.012 2.75 0 .269.18.58.688.481A10.019 10.019 0 0 0 22 12.017C22 6.486 17.523 2 12 2Z"/></svg>`,
+	portfolio: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2H10a2 2 0 0 0-2 2v16"/></svg>`,
+	blog: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>`,
+	linkedin: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554V14.87c0-1.332-.027-3.045-1.856-3.045-1.858 0-2.143 1.45-2.143 2.95v5.677H9.34V9h3.414v1.561h.049c.476-.9 1.637-1.85 3.37-1.85 3.604 0 4.27 2.372 4.27 5.455v6.286zM5.337 7.433a2.063 2.063 0 1 1 0-4.126 2.063 2.063 0 0 1 0 4.126zM7.114 20.452H3.56V9h3.554v11.452z"/></svg>`,
+	instagram: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5A4.25 4.25 0 0 0 7.75 20.5h8.5a4.25 4.25 0 0 0 4.25-4.25v-8.5A4.25 4.25 0 0 0 16.25 3.5h-8.5z"/><path d="M12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 1.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7z"/><circle cx="17.5" cy="6.5" r="1.25"/></svg>`,
+	futureShop: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2l1.5 4h9L18 2"/><path d="M3 6h18l-1.5 13a2 2 0 0 1-2 2h-11a2 2 0 0 1-2-2L3 6z"/><path d="M9 10v5"/><path d="M15 10v5"/></svg>`,
+};
 ---
 
 <a
@@ -20,8 +38,12 @@ const { id, title, description, href, isComingSoon = false, comingSoonLabel = ''
 	aria-disabled={isComingSoon}
 >
 	<div class="link-card-main">
-		<p class="link-card-title" id={`link-title-${id}`} data-i18n>{title}</p>
-		<p class="link-card-description" id={`link-description-${id}`} data-i18n>{description}</p>
+		<span class="link-icon" set:html={icons[icon]} />
+
+		<div>
+			<p class="link-card-title" id={`link-title-${id}`} data-i18n>{title}</p>
+			<p class="link-card-description" id={`link-description-${id}`} data-i18n>{description}</p>
+		</div>
 	</div>
 	<span class="link-card-tag" id={`link-tag-${id}`} data-i18n>{isComingSoon ? comingSoonLabel : ''}</span>
 </a>
