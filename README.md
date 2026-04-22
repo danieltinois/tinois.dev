@@ -16,4 +16,4 @@ This project centralizes my main links, projects, and content in a clean, fast, 
 
 - Astro
 - HTML + CSS
-- Vanilla JavaScript
+- TypeScript
