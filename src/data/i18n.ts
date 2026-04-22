@@ -91,7 +91,7 @@ export const content: Record<Locale, LocaleContent> = {
 				key: 'blog',
 				title: 'My Blog',
 				description: 'Notes on engineering, product, and systems.',
-				href: 'https://my-blog-zeta-lac.vercel.app',
+				href: 'https://danielporai.com',
 				icon: 'blog'
 			},
 			{
@@ -166,7 +166,7 @@ export const content: Record<Locale, LocaleContent> = {
 				key: 'blog',
 				title: 'Meu Blog',
 				description: 'Notas sobre engenharia, produto e sistemas.',
-				href: 'https://my-blog-zeta-lac.vercel.app',
+				href: 'https://danielporai.com',
 				icon: 'blog'
 			},
 			{
